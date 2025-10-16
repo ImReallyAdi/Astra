@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Astra</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react-icons/umd/react-icons.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "SF Pro Display", sans-serif;
+        margin: 0;
+        background: #f9f9f9;
+        color: #111;
+      }
+      .app {
+        max-width: 420px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 0.6s ease;
+      }
+      header {
+        padding: 16px;
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .banner {
+        width: 100%;
+        height: 120px;
+        border-radius: 12px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #b5bfe6, #dfe6f5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 40px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: lowercase;
+      }
+      .search {
+        margin: 16px;
+      }
+      .search input {
+        width: 100%;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 10px;
+        background: #f1f1f1;
+        font-size: 16px;
+        outline: none;
+        transition: all 0.2s ease;
+      }
+      .search input:focus {
+        background: #e9e9e9;
+      }
+      .contacts {
+        padding: 0 16px;
+      }
+      .contacts h3 {
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .contacts-list {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 10px 0;
+      }
+      .contact {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+        animation: fadeUp 0.6s ease;
+      }
+      .contact img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 4px;
+        transition: transform 0.2s;
+      }
+      .contact img:hover {
+        transform: scale(1.1);
+      }
+      .emergency {
+        background: #e74c3c;
+        color: white;
+        text-align: center;
+        padding: 12px;
+        margin: 16px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.3s;
+      }
+      .emergency:hover {
+        background: #c0392b;
+        transform: translateY(-2px);
+      }
+      .map-section {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 10px;
+        padding: 0 16px 16px;
+      }
+      iframe {
+        width: 100%;
+        height: 180px;
+        border: none;
+        border-radius: 12px;
+      }
+      .buttons {
+        display: grid;
+        grid-template-rows: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .btn {
+        background: #f1f1f1;
+        border-radius: 12px;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+      }
+      .btn:hover {
+        background: #e0e0e0;
+        transform: scale(1.05);
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { FaUserFriends, FaEnvelope, FaComments, FaPhoneAlt } = ReactIcons.fa;
+
+      const App = () => {
+        const contacts = [
+          { name: "mom", img: "https://via.placeholder.com/80?text=🍐" },
+          { name: "Dad", img: "https://via.placeholder.com/80?text=🍉" },
+          { name: "Bro", img: "https://via.placeholder.com/80?text=🥕" },
+          { name: "Sister", img: "https://via.placeholder.com/80?text=🍄" },
+        ];
+
+        const navigate = (page) => {
+          window.location.href = page;
+        };
+
+        return (
+          <div className="app">
+            <header>Astra</header>
+            <div className="banner">astra</div>
+
+            <div className="search">
+              <input placeholder="Search" />
+            </div>
+
+            <div className="contacts">
+              <h3>
+                Contacts <span>›</span>
+              </h3>
+              <div className="contacts-list">
+                {contacts.map((c, i) => (
+                  <div key={i} className="contact">
+                    <img src={c.img} alt={c.name} />
+                    {c.name}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="emergency" onClick={() => alert("Calling emergency...")}>
+              <FaPhoneAlt /> Emergency
+            </div>
+
+            <div className="map-section">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.436390788394!2d77.0910038!3d28.5822406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b88d67ad4e5%3A0xd99b8261b20c1c0d!2sIndira%20Gandhi%20International%20Airport!5e0!3m2!1sen!2sin!4v1697043123456"
+                allowFullScreen=""
+                loading="lazy"
+              ></iframe>
+
+              <div className="buttons">
+                <div className="btn" onClick={() => navigate("/contacts")}>
+                  <FaUserFriends size={22} />
+                </div>
+                <div className="btn" onClick={() => navigate("/messages")}>
+                  <FaEnvelope size={22} />
+                </div>
+                <div className="btn" onClick={() => navigate("/chat")}>
+                  <FaComments size={22} />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
+</html>
