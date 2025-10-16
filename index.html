@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Astra</title>
 
-    <!-- React + Babel + Icons -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- React Icons (we’ll grab SVGs manually) -->
     <script src="https://unpkg.com/react-icons@4.10.1/dist/react-icons.min.js"></script>
 
     <style>
@@ -173,75 +170,70 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div class="app">
+      <header>Astra</header>
+      <div class="banner">astra</div>
 
-    <script type="text/babel">
+      <div class="search">
+        <input placeholder="Search" />
+      </div>
+
+      <div class="contacts">
+        <h3>Contacts <span>›</span></h3>
+        <div class="contacts-list" id="contacts"></div>
+      </div>
+
+      <div class="emergency" id="emergencyBtn">
+        <span id="phoneIcon"></span> Emergency
+      </div>
+
+      <div class="map-section">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.436390788394!2d77.0910038!3d28.5822406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b88d67ad4e5%3A0xd99b8261b20c1c0d!2sIndira%20Gandhi%20International%20Airport!5e0!3m2!1sen!2sin!4v1697043123456"
+          allowfullscreen=""
+          loading="lazy"
+        ></iframe>
+
+        <div class="buttons">
+          <div class="btn" id="contactsBtn"></div>
+          <div class="btn" id="messagesBtn"></div>
+          <div class="btn" id="chatBtn"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Load icons from ReactIcons
       const { FaUserFriends, FaEnvelope, FaComments, FaPhoneAlt } = ReactIcons.Fa;
 
-      const App = () => {
-        const contacts = [
-          { name: "mom", img: "https://via.placeholder.com/80?text=🍐" },
-          { name: "Dad", img: "https://via.placeholder.com/80?text=🍉" },
-          { name: "Bro", img: "https://via.placeholder.com/80?text=🥕" },
-          { name: "Sister", img: "https://via.placeholder.com/80?text=🍄" },
-        ];
+      // Create SVGs manually
+      document.getElementById("contactsBtn").innerHTML = FaUserFriends().props.children;
+      document.getElementById("messagesBtn").innerHTML = FaEnvelope().props.children;
+      document.getElementById("chatBtn").innerHTML = FaComments().props.children;
+      document.getElementById("phoneIcon").innerHTML = FaPhoneAlt().props.children;
 
-        const navigate = (page) => {
-          alert("Navigate to " + page);
-        };
+      // Contacts list
+      const contacts = [
+        { name: "mom", img: "https://via.placeholder.com/80?text=🍐" },
+        { name: "Dad", img: "https://via.placeholder.com/80?text=🍉" },
+        { name: "Bro", img: "https://via.placeholder.com/80?text=🥕" },
+        { name: "Sister", img: "https://via.placeholder.com/80?text=🍄" },
+      ];
 
-        return (
-          <div className="app">
-            <header>Astra</header>
-            <div className="banner">astra</div>
+      const contactsContainer = document.getElementById("contacts");
+      contacts.forEach((c) => {
+        const div = document.createElement("div");
+        div.className = "contact";
+        div.innerHTML = `<img src="${c.img}" alt="${c.name}" /><div>${c.name}</div>`;
+        contactsContainer.appendChild(div);
+      });
 
-            <div className="search">
-              <input placeholder="Search" />
-            </div>
-
-            <div className="contacts">
-              <h3>
-                Contacts <span>›</span>
-              </h3>
-              <div className="contacts-list">
-                {contacts.map((c, i) => (
-                  <div key={i} className="contact">
-                    <img src={c.img} alt={c.name} />
-                    {c.name}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="emergency" onClick={() => alert("Calling emergency...")}>
-              <FaPhoneAlt /> Emergency
-            </div>
-
-            <div className="map-section">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.436390788394!2d77.0910038!3d28.5822406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1b88d67ad4e5%3A0xd99b8261b20c1c0d!2sIndira%20Gandhi%20International%20Airport!5e0!3m2!1sen!2sin!4v1697043123456"
-                allowFullScreen=""
-                loading="lazy"
-              ></iframe>
-
-              <div className="buttons">
-                <div className="btn" onClick={() => navigate("/contacts")}>
-                  <FaUserFriends size={22} />
-                </div>
-                <div className="btn" onClick={() => navigate("/messages")}>
-                  <FaEnvelope size={22} />
-                </div>
-                <div className="btn" onClick={() => navigate("/chat")}>
-                  <FaComments size={22} />
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      };
-
-      const root = ReactDOM.createRoot(document.getElementById("root"));
-      root.render(<App />);
+      // Navigation buttons
+      document.getElementById("contactsBtn").onclick = () => (window.location.href = "/contacts");
+      document.getElementById("messagesBtn").onclick = () => (window.location.href = "/messages");
+      document.getElementById("chatBtn").onclick = () => (window.location.href = "/chat");
+      document.getElementById("emergencyBtn").onclick = () =>
+        alert("Calling emergency...");
     </script>
   </body>
 </html>
